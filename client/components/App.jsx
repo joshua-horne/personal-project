@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react'
 
-import { getWelcome } from '../api'
+import ErrorMessage from './ErrorMessage'
+import LoadGame from './LoadGame'
+import Loading from './Loading'
+import Deck from './Deck'
 
 function App() {
-  const [welcomeStatement, setWelcomeStatement] = useState('')
 
-  useEffect(() => {
-    getWelcome()
-      .then((res) => {
-        setWelcomeStatement(res.statement)
-        return null
-      })
-      .catch((err) => {
-        console.error(err.message)
-      })
-  })
-
-  return <h1>{welcomeStatement}</h1>
+  return (
+    <>
+    <h1>Kings Cup</h1>
+    <ErrorMessage />
+    <LoadGame>
+      <Loading />
+    </LoadGame>
+    <Deck />
+    </>
+  )
 }
 
 export default App
