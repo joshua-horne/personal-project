@@ -4,6 +4,7 @@ export const REQUEST_DECK = 'REQUEST_DECK'
 export const RECEIVE_DECK = 'RECEIVE_DECK'
 export const REQUEST_CARD = 'REQUEST_CARD'
 export const RECEIVE_CARD = 'RECEIVE_CARD'
+export const PROCESS_EFFECT = 'PROCESS_EFFECT'
 export const SHOW_ERROR = 'SHOW_ERROR'
 
 export function requestDeck() {
@@ -18,6 +19,12 @@ export function requestCard() {
   }
 }
 
+export function processEffect() {
+  return {
+    type: PROCESS_EFFECT,
+  }
+}
+
 export function receiveDeck(deck) {
   return {
     type: RECEIVE_DECK,
@@ -26,7 +33,6 @@ export function receiveDeck(deck) {
 }
 
 export function receiveCard(drawn) {
-  //scenario for multiple drawn cards?
   return {
     type: RECEIVE_CARD,
     payload: {
@@ -49,7 +55,6 @@ export function showError(errorMessage) {
 
 export function firstCard() {
   return (dispatch) => {
-    dispatch(requestCard())
     dispatch(requestDeck())
     return request
       .get(`/api/v1/new`)
@@ -76,5 +81,38 @@ export function drawCard(deckID) {
       .catch((err) => {
         dispatch(showError(err.message))
       })
+  }
+}
+
+export function fetchEffect(value) {
+  switch (value) {
+    case 'ACE':
+      return 'Waterfall'
+    case '2':
+      return 'You'
+    case '3':
+      return 'Me'
+    case '4':
+      return 'Ladies'
+    case '5':
+      return 'House Rules'
+    case '6':
+      return 'Lads'
+    case '7':
+      return 'Heaven'
+    case '8':
+      return 'Mate'
+    case '9':
+      return 'Rhyme'
+    case '10':
+      return 'Categories'
+    case 'JACK':
+      return 'New Rule'
+    case 'QUEEN':
+      return 'Question Master'
+    case 'KING':
+      return 'CONTRIBUTE TO THE KINGS CUP!'
+    default:
+      return 'Not Found'
   }
 }
