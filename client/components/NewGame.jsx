@@ -10,6 +10,7 @@ function NewGame() {
 
   return !running ? (
     <div>
+      <h2>Enter Player Names IN DEVELOPMENT</h2>
       <button onClick={() => dispatch(firstCard())}>
         New Game
       </button>
