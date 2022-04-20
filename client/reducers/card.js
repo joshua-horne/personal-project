@@ -3,7 +3,7 @@ import { RECEIVE_CARD } from '../actions'
 function card(state = [], action) {
   switch (action.type) {
     case RECEIVE_CARD:
-      return action.card_code
+      return action.payload
 
     default:
       return state

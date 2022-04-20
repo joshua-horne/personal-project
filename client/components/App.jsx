@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
 import ErrorMessage from './ErrorMessage'
-import LoadGame from './LoadGame'
-import Loading from './Loading'
-import Deck from './Deck'
+import NewGame from './NewGame'
+import Game from './Game'
 
 function App() {
 
@@ -11,10 +10,8 @@ function App() {
     <>
     <h1>Kings Cup</h1>
     <ErrorMessage />
-    <LoadGame>
-      <Loading />
-    </LoadGame>
-    <Deck />
+    <NewGame />
+    <Game />
     </>
   )
 }

@@ -12,28 +12,31 @@ export function requestDeck() {
   }
 }
 
-export function receiveDeck(response) {
-  return {
-    type: RECEIVE_DECK,
-    deck: response.deck_id,
-  }
-}
-
 export function requestCard() {
   return {
     type: REQUEST_CARD,
   }
 }
 
+export function receiveDeck(deck) {
+  return {
+    type: RECEIVE_DECK,
+    deck: deck.deck_id,
+  }
+}
+
 export function receiveCard(drawn) {
+  //scenario for multiple drawn cards?
   return {
     type: RECEIVE_CARD,
-    deck: drawn.deck_id,
-    card_code: drawn.cards[0].code,
-    card_image: drawn.cards[0].image,
-    card_value: drawn.cards[0].value,
-    card_suit: drawn.cards[0].suit,
-    remaining: drawn.remaining,
+    payload: {
+      deck: drawn.deck_id,
+      code: drawn.cards[0].code,
+      image: drawn.cards[0].image,
+      value: drawn.cards[0].value,
+      suit: drawn.cards[0].suit,
+      remaining: drawn.remaining,
+    },
   }
 }
 
@@ -44,13 +47,15 @@ export function showError(errorMessage) {
   }
 }
 
-export function fetchDeck() {
+export function firstCard() {
   return (dispatch) => {
+    dispatch(requestCard())
     dispatch(requestDeck())
     return request
       .get(`/api/v1/new`)
       .then((res) => {
         dispatch(receiveDeck(res.body))
+        dispatch(receiveCard(res.body))
         return null
       })
       .catch((err) => {
@@ -59,23 +64,17 @@ export function fetchDeck() {
   }
 }
 
-// Create draw card function
 export function drawCard(deckID) {
   return (dispatch) => {
-    //create action for request card ?done?
     dispatch(requestCard())
-    return (
-      request
-        //create api get for draw card ?done?
-        .get(`/api/v1/draw/${deckID}`)
-        .then((res) => {
-          //create receive card action ?done?
-          dispatch(receiveCard(res.body))
-          return null
-        })
-        .catch((err) => {
-          dispatch(showError(err.message))
-        })
-    )
+    return request
+      .get(`/api/v1/draw/${deckID}`)
+      .then((res) => {
+        dispatch(receiveCard(res.body))
+        return null
+      })
+      .catch((err) => {
+        dispatch(showError(err.message))
+      })
   }
 }
