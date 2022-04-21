@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { fetchEffect } from '../actions'
+import { fetchEffect, receiveKing } from '../actions'
+
+import Replay from './Replay'
 
 function Card() {
-  const [cardEffect, setEffect] = useState('')
+  let [cardEffect, setEffect] = useState('')  
   const card = useSelector((state) => state.card)
+  const kingCounter = useSelector((state) => state.kingCounter)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    setEffect(fetchEffect(card.value))    
+    setEffect(fetchEffect(card.value))
+    if (card.value == 'KING' && kingCounter == 1) {
+      setEffect(fetchEffect('FINAL KING'))
+      dispatch(receiveKing())    
+    }
+    else if(card.value == 'KING')
+    dispatch(receiveKing())
   }
   ,[card])
 
@@ -19,8 +29,9 @@ function Card() {
       <h1>Your Card: The {card.value} of {card.suit}</h1>
       <h2>Card Effect: {cardEffect} (more detailed explanation on hover?)</h2>
       <h3>Remaining Cards: {card.remaining}</h3>
-      <h3>Remaining Kings: King Counter (IN DEVELOPMENT)</h3>
+      <h3>Remaining Kings: {kingCounter}</h3>
       <h3>Game End Condition and Replay Function (IN DEVELOPMENT)</h3>
+      <Replay />
     </div>
   )
 }

@@ -4,7 +4,9 @@ export const REQUEST_DECK = 'REQUEST_DECK'
 export const RECEIVE_DECK = 'RECEIVE_DECK'
 export const REQUEST_CARD = 'REQUEST_CARD'
 export const RECEIVE_CARD = 'RECEIVE_CARD'
-export const PROCESS_EFFECT = 'PROCESS_EFFECT'
+export const RECEIVE_KING = 'RECEIVE_KING'
+export const BEGIN_GAME = 'BEGIN_GAME'
+export const END_GAME = 'END_GAME'
 export const SHOW_ERROR = 'SHOW_ERROR'
 
 export function requestDeck() {
@@ -16,12 +18,6 @@ export function requestDeck() {
 export function requestCard() {
   return {
     type: REQUEST_CARD,
-  }
-}
-
-export function processEffect() {
-  return {
-    type: PROCESS_EFFECT,
   }
 }
 
@@ -46,6 +42,24 @@ export function receiveCard(drawn) {
   }
 }
 
+export function receiveKing() {
+  return {
+    type: RECEIVE_KING,
+  }
+}
+
+export function beginGame() {
+  return {
+    type: BEGIN_GAME,
+  }
+}
+
+export function endGame() {
+  return {
+    type: END_GAME,
+  }
+}
+
 export function showError(errorMessage) {
   return {
     type: SHOW_ERROR,
@@ -61,6 +75,7 @@ export function firstCard() {
       .then((res) => {
         dispatch(receiveDeck(res.body))
         dispatch(receiveCard(res.body))
+        dispatch(beginGame())
         return null
       })
       .catch((err) => {
@@ -111,7 +126,9 @@ export function fetchEffect(value) {
     case 'QUEEN':
       return 'Question Master'
     case 'KING':
-      return 'CONTRIBUTE TO THE KINGS CUP!'
+      return 'CONTRIBUTE TO THE KINGS CUP'
+    case 'FINAL KING':
+      return 'YOU HAVE DRAWN THE FINAL KING! CHEERS!!'
     default:
       return 'Not Found'
   }
