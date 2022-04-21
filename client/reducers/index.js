@@ -5,6 +5,7 @@ import running from './running'
 import deck from './deck'
 import card from './card'
 import kingCounter from './kingCounter'
+import players from './players'
 
 export default combineReducers({
   errorMessage,
@@ -12,4 +13,5 @@ export default combineReducers({
   deck,
   card,
   kingCounter,
+  players,
 })

@@ -6,13 +6,18 @@ import { fetchEffect, receiveKing } from '../actions'
 import Replay from './Replay'
 
 function Card() {
-  let [cardEffect, setEffect] = useState('')  
+  let [cardEffect, setEffect] = useState('')
+  let [activePlayer, setPlayer] = useState(0)
+
   const card = useSelector((state) => state.card)
   const kingCounter = useSelector((state) => state.kingCounter)
+  const playerList = useSelector((state) => state.players)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
     setEffect(fetchEffect(card.value))
+    //setPlayer to +1 of active player BUT needs to loop on playerList.length
     if (card.value == 'KING' && kingCounter == 1) {
       setEffect(fetchEffect('FINAL KING'))
       dispatch(receiveKing())    
@@ -24,7 +29,7 @@ function Card() {
 
   return (
     <div>
-      <h1>Your turn (PLAYER NAME)</h1>
+      <h1>Your turn {playerList[activePlayer]}</h1>
       <img src={card.image} alt="picture of your card" />
       <h1>Your Card: The {card.value} of {card.suit}</h1>
       <h2>Card Effect: {cardEffect} (more detailed explanation on hover?)</h2>

@@ -7,6 +7,7 @@ export const RECEIVE_CARD = 'RECEIVE_CARD'
 export const RECEIVE_KING = 'RECEIVE_KING'
 export const BEGIN_GAME = 'BEGIN_GAME'
 export const END_GAME = 'END_GAME'
+export const NEW_PLAYER = 'NEW_PLAYER'
 export const SHOW_ERROR = 'SHOW_ERROR'
 
 export function requestDeck() {
@@ -57,6 +58,13 @@ export function beginGame() {
 export function endGame() {
   return {
     type: END_GAME,
+  }
+}
+
+export function newPlayer(name) {
+  return {
+    type: NEW_PLAYER,
+    name: name,
   }
 }
 
